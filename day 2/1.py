@@ -13,15 +13,11 @@ count = 0
 for line in lines:
     games = re.sub("Game \d+:", "", line).split(";")
     game_number = re.findall("Game (\d+):", line)[0]
-    imposible = True
-    for game in games:
-        if (
-            check("red", 12, game)
-            and check("green", 13, game)
-            and check("blue", 14, game)
-        ):
-            imposible = False
-    if imposible:
+    possible = all(
+        check("red", 12, game) and check("green", 13, game) and check("blue", 14, game)
+        for game in games
+    )
+    if possible:
         count += int(game_number)
 
 print(count)
